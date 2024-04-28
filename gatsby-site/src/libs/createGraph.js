@@ -33,7 +33,7 @@ export const updateGraph = ({ nouns, adjectives, verbs, svgRef }) => {
         .force("center", d3.forceCenter(width / 2, height / 2));
 
     const link = svg.append("g")
-        .attr("stroke", "#999")
+        .attr("stroke", "white")
         .attr("stroke-opacity", 0.6)
         .selectAll("line")
         .data(links)
@@ -41,17 +41,46 @@ export const updateGraph = ({ nouns, adjectives, verbs, svgRef }) => {
         .attr("stroke-width", d => Math.sqrt(d.value));
 
     const node = svg.append("g")
-        .attr("stroke", "#fff")
+        .attr("stroke", "white")
         .attr("stroke-width", 1.5)
         .selectAll("circle")
         .data(nodes)
         .enter().append("circle")
         .attr("r", 5)
-        .attr("fill", d => d.group === 'noun' ? 'red' : d.group === 'adjective' ? 'blue' : 'green')
+        .attr("fill", d => d.group === 'noun' ? '#BDBDBC' : d.group === 'adjective' ? '#BFE6D2' : '#1140B6')
         .call(d3.drag()
             .on("start", dragstarted)
             .on("drag", dragged)
             .on("end", dragended));
+
+                // Add legend
+    const legend = svg.append("g")
+    .attr("class", "legend")
+    .attr("transform", "translate(20, 20)");  // Adjust position as needed
+
+  const legendData = [
+    { color: '#BDBDBC', text: 'Noun' },
+    { color: '#BFE6D2', text: 'Adjective' },
+    { color: '#1140B6', text: 'Verb' }
+  ];
+
+  legend.selectAll(null)
+    .data(legendData)
+    .enter()
+    .append("rect")
+    .attr("y", (d, i) => i * 20) // Separate each entry
+    .attr("width", 10)
+    .attr("height", 10)
+    .attr("fill", d => d.color);
+
+  legend.selectAll(null)
+    .data(legendData)
+    .enter()
+    .append("text")
+    .attr("y", (d, i) => i * 20 + 9)
+    .attr("x", 15) // Offset from the rectangle
+    .attr("fill", "white")
+    .text(d => d.text);
 
     const labels = svg.append("g")
         .selectAll("text")
