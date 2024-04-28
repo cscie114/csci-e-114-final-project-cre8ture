@@ -1,33 +1,50 @@
-// src/libs/p2pManager.js
 
-import * as Automerge from '@automerge/automerge';
 import Peer from 'simple-peer';
+import fetch from 'cross-fetch'; // You might need to install this for server-side fetch support
 
-// This initializes your Automerge document with an empty array of poems
-export const doc = Automerge.from({ poems: [] });
+export const initializePeerConnection = (username, setPeer) => {
 
-export const initializePeerConnection = () => {
-  const peer = new Peer({
-    initiator: location.hash === '#init',
-    trickle: false,
-  });
-
+    let peer;
+    if (typeof window !== 'undefined') {
+         peer = new Peer({
+            initiator: window.location.hash === '#init',
+            trickle: false,
+          });
+      }
+      
   peer.on('signal', data => {
-    // Here you would typically send the signaling data to the other peer.
-    // For example, using WebSockets or another signaling mechanism.
+    // Send signaling data to the server
+    fetch('/.netlify/functions/storeOffer', {
+      method: 'POST',
+      body: JSON.stringify({ signalData: data, username }),
+    });
   });
 
-  peer.on('data', data => {
-    // Data received from the other peer
-    const changes = JSON.parse(data);
-    Automerge.applyChanges(doc, changes);
-  });
+  // Function to fetch offers or answers from the server
+  const fetchOffersOrAnswers = async () => {
+    const response = await fetch('/.netlify/functions/retrieveOffers', {
+      method: 'POST',
+      body: JSON.stringify({ username }),
+    });
+    const data = await response.json();
+    if (data.signalData) {
+      peer.signal(data.signalData);
+    }
+  };
 
-  return peer;
+  // Call this function periodically to check for new offers or answers
+  const signalingInterval = setInterval(fetchOffersOrAnswers, 5000);
+
+  // Make sure to clear the interval when peer connection is established or destroyed
+  peer.on('connect', () => clearInterval(signalingInterval));
+  peer.on('close', () => clearInterval(signalingInterval));
+  peer.on('error', () => clearInterval(signalingInterval));
+
+  // Set the peer in the state of your component to use it later
+  setPeer(peer);
+
+  return () => {
+    clearInterval(signalingInterval);
+    peer.destroy();
+  };
 };
-
-export const sendChanges = (peer, newDoc) => {
-  const changes = Automerge.getChanges(doc, newDoc);
-  peer.send(JSON.stringify(changes));
-};
-

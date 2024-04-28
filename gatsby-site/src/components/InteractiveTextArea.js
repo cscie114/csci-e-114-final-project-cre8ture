@@ -1,33 +1,52 @@
-
 import React, { useState, useEffect, useRef } from 'react';
 import nlp from 'compromise';
 import { updateGraph } from '../libs/createGraph';
-import { doc, initializePeerConnection, sendChanges } from '../libs/p2pManager';
+import {initiatePeerConnection} from '../libs/p2pManager';
+import { retrieveUsername } from '../libs/store/usernames';
+import { doc, applyChanges, createNewDocWithChanges, getChangesForNewDoc } from '../libs/docManager';
+
 
 const InteractiveTextAnalysis = () => {
-  const [inputText, setInputText] = useState("");
-  const svgRef = useRef(null);
-  const [peer, setPeer] = useState(null);
+    
+    const [peer, setPeer] = useState(null);  // Add this to manage your peer connection state
 
-  useEffect(() => {
-    const newPeer = initializePeerConnection();
-    setPeer(newPeer);
+    const [inputText, setInputText] = useState("");
+    const svgRef = useRef(null);
 
-    return () => newPeer.destroy(); // Cleanup the peer connection when the component unmounts
-  }, []);
 
-  useEffect(() => {
-    analyzeText(inputText);
-    // Update Automerge doc whenever the text changes
-    const newDoc = Automerge.change(doc, 'Update Poem', doc => {
-      doc.poems.push(inputText);
-    });
 
-    // Send changes to peer
-    if (peer) {
-      sendChanges(peer, newDoc);
-    }
-  }, [inputText, peer]);
+    ///////////////////////// PEER 2 PEER /////////////////////////
+    useEffect(() => {
+        const username = retrieveUsername(); // Call this function to get the stored username
+        const cleanUp = initiatePeerConnection(username, setPeer);
+        return cleanUp; // Cleanup the peer connection when the component unmounts
+      }, []);
+
+      useEffect(() => {
+        // Handle incoming data from peers
+        if (peer) {
+            peer.on('data', data => {
+                const changes = JSON.parse(data);
+                applyChanges(changes);  // Update Automerge document with received changes
+            });
+        }
+    }, [peer]);
+    
+    // Watch inputText for changes and send updates
+    useEffect(() => {
+        if (inputText && peer) {
+            const newDoc = createNewDocWithChanges(doc, doc => {
+                doc.poems[0] = inputText;  // Update the poem text in the Automerge document
+            });
+            const changes = getChangesForNewDoc(doc, newDoc);
+            peer.send(JSON.stringify(changes));  // Send changes to the peer
+        }
+    }, [inputText, peer]);
+
+    
+
+    ///////////////////////// PEER 2 PEER /////////////////////////
+
 
     useEffect(() => {
         analyzeText(inputText);
@@ -56,7 +75,7 @@ const InteractiveTextAnalysis = () => {
         <div>
             <textarea onChange={handleInputChange} value={inputText}
             style={{color: "white"}} 
-                rows="10" cols="50" placeholder="Write here to analyze text...">
+                rows="21" cols="50" placeholder="Write here to analyze text...">
             </textarea>
             <svg ref={svgRef}></svg>
         </div>

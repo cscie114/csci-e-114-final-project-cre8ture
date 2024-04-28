@@ -1,9 +1,10 @@
 module.exports = {
   siteMetadata: {
-    title: 'Your Site Title',
-    description: 'Your site description',
-    author: 'Author Name', // Add this line
+    title: 'brush and poem',
+    description: 'Create simple poems inspired by brush painters',
+    author: 'Kai Kleinbard', 
   },
+ 
   plugins: [
     'gatsby-plugin-offline',
     {

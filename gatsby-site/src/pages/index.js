@@ -1,8 +1,16 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { Link, graphql, useStaticQuery } from 'gatsby';
 import Layout from "../components/layout";
+import {storeUsername, retrieveUsername} from '../libs/store/usernames';
 
 const IndexPage = () => {
+  const [username, setUsername] = useState(retrieveUsername());
+
+  // Update local storage whenever the username changes
+  useEffect(() => {
+    storeUsername(username);
+  }, [username]);
+
   const data = useStaticQuery(graphql`
     query {
       allSitePage(filter: {path: {regex: "/study-guide/"}}) {
@@ -19,7 +27,10 @@ const IndexPage = () => {
     return path.substring(titleStart, titleEnd);
   };
 
-  const poem1 = `送别, 王维 (“Farewell”, by Wang Wei)
+  const poem1 = 
+  `送别, 王维 (“Farewell”, by Wang Wei)
+  
+  
   下马饮君酒
 
   问君何所之
@@ -52,9 +63,24 @@ const IndexPage = () => {
         <article>
           {poem1}
         </article>
+        <br></br>
+        <hr/>
+        <br></br>
+
         <article>
           {poem2}
         </article>
+
+<br/>
+<hr></hr>
+<br/>
+        <form>
+          <label>
+          Enter a username to remember you across devices (Experimental):
+          <input type="text" value={username} onChange={e => setUsername(e.target.value)} />
+
+          </label>
+        </form>
 
         <h2>Write poems insired by paintings</h2>
         <ul>

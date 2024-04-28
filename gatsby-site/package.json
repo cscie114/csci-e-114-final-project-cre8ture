@@ -20,6 +20,7 @@
     "normalize.css": "^8.0.1",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
+    "simple-peer": "^9.11.1",
     "webtorrent": "^2.2.1"
   },
   "devDependencies": {

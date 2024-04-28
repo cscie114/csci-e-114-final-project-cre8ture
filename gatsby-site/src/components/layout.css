@@ -1,21 +1,3 @@
-.root{
-  color: black;
-}
-
-.layout {
-  color: black;        /* All text within the layout will be black */
-  background-color: white; /* Background of the layout is white */
-  min-height: 100vh;   /* Makes sure the layout covers at least the full view height */
-  padding: 20px;       /* Adds some padding around the content */
-}
-
-h1, h2, h3, h4 {
-  color: black;
-}
-
-li{
-  color: black;
-}
 
 /* General link styling */
 a {

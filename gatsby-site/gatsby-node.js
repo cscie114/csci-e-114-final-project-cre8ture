@@ -1,6 +1,14 @@
 const path = require(`path`);
 const fetch = require('node-fetch');
 
+exports.onCreateWebpackConfig = ({ actions }) => {
+  actions.setWebpackConfig({
+    experiments: {
+      asyncWebAssembly: true,
+    },
+  });
+};
+
 exports.createPages = async ({ actions }) => {
   const { createPage } = actions;
 
