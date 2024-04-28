@@ -5,6 +5,7 @@ module.exports = {
     author: 'Author Name', // Add this line
   },
   plugins: [
+    'gatsby-plugin-offline',
     {
       resolve: `gatsby-source-filesystem`,
       options: {

@@ -5,7 +5,7 @@ exports.createPages = async ({ actions }) => {
   const { createPage } = actions;
 
   // Define the list of topics you want to fetch from Wikipedia
-  const topics = ['Xu_Wei', 'Sesson_Shukei', 'Hasegawa_Tōhaku', 'Nagasawa_Rosetsu'];
+  const topics = ['Xu_Wei', 'Sesson_Shukei', 'Ike_no_Taiga', 'Yosa_Buson'];
 
   // Fetch data for each topic
   const pagesData = await Promise.all(topics.map(async topic => {

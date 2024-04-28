@@ -14,8 +14,8 @@ const Quiz = ({ question, onSubmit }) => {
   };
 
   return (
-    <aside>
-      <form onSubmit={handleSubmit}>
+    <aside style={{ width: '300px' }}>
+      <form style={{ width: '200px' }} onSubmit={handleSubmit}>
         <p>{question}</p>
         <input type="text" value={userInput} onChange={handleChange} />
         <button type="submit">Check Answer</button>
