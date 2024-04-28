@@ -2,11 +2,12 @@
 import React, { useEffect, useState } from 'react';
 import nlp from 'compromise';
 import Quiz from '../components/Quiz';
+import InteractiveTextAnalysis from '../components/InteractiveTextArea';
 // import '../styles/magick.css'; // Assuming you have local styles that import magick.css
 
+
 const StudyGuideTemplate = ({ pageContext }) => {
-  // Use pageContext to access title and summary
-  const { title, summary } = pageContext;
+  const { title, summary, imageUrl, author } = pageContext;
   const [quiz, setQuiz] = useState(null);
 
   useEffect(() => {
@@ -35,11 +36,16 @@ const StudyGuideTemplate = ({ pageContext }) => {
 
   return (
     <main>
-      <h1>{title}</h1>
+      <h1 style={{color:"white"}}>{title}</h1>
       <article dangerouslySetInnerHTML={{ __html: summary }} />
+      {imageUrl && <img src={imageUrl} alt={`Image for ${title}`} />}
+      <div style={{display: "flex"}}>
+      {/* <textarea style={{color: "white"}} rows="4" cols="50" placeholder="Write a poem" /> */}
+      <InteractiveTextAnalysis/>
       {quiz && (
         <Quiz question={quiz.question} onSubmit={handleSubmit} />
       )}
+      </div>
     </main>
   );
 };

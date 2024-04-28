@@ -1,6 +1,36 @@
+.root{
+  color: black;
+}
+
 .layout {
   color: black;        /* All text within the layout will be black */
   background-color: white; /* Background of the layout is white */
   min-height: 100vh;   /* Makes sure the layout covers at least the full view height */
   padding: 20px;       /* Adds some padding around the content */
 }
+
+h1{
+  color: black;
+}
+
+li{
+  color: black;
+}
+
+/* General link styling */
+a {
+  color: #808080; /* A medium grey color */
+  text-decoration: none; /* Optional: removes underline from links */
+  transition: color 0.3s ease-in-out; /* Smooth transition for color change */
+}
+
+/* Hover and active states to slightly change the shade of grey */
+a:hover, a:active {
+  color: #666666; /* A slightly darker grey */
+}
+
+/* Visited state to maintain the same grey theme */
+a:visited {
+  color: #808080; /* Same grey as unvisited links */
+}
+
