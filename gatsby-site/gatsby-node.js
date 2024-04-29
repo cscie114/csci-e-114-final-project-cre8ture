@@ -1,19 +1,27 @@
 const path = require(`path`);
 const fetch = require('node-fetch');
 
-exports.onCreateWebpackConfig = ({ actions }) => {
+exports.onCreateWebpackConfig = ({ stage, actions }) => {
   actions.setWebpackConfig({
     experiments: {
       asyncWebAssembly: true,
     },
   });
+  if (stage === "build-html") {
+    actions.setWebpackConfig({
+      node: {
+        process: 'mock'
+      },
+    })
+  }
+ 
 };
 
 exports.createPages = async ({ actions }) => {
   const { createPage } = actions;
 
   // Define the list of topics you want to fetch from Wikipedia
-  const topics = ['Xu_Wei', 'Sesson_Shukei', 'Ike_no_Taiga', 'Yosa_Buson'];
+  const topics = ['Xu_Wei', 'Tosa_Mitsuoki', 'Ike_no_Taiga', 'Yosa_Buson'];
 
   // Fetch data for each topic
   const pagesData = await Promise.all(topics.map(async topic => {

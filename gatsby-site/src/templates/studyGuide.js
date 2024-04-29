@@ -3,6 +3,7 @@ import React, { useEffect, useState } from 'react';
 import nlp from 'compromise';
 import Quiz from '../components/Quiz';
 import InteractiveTextAnalysis from '../components/InteractiveTextArea';
+import Layout from '../components/layout';
 // import '../styles/magick.css'; // Assuming you have local styles that import magick.css
 
 
@@ -35,6 +36,7 @@ const StudyGuideTemplate = ({ pageContext }) => {
   };
 
   return (
+    <Layout>
     <main>
       <h1 style={{color:"white"}}>{title}</h1>
       <article dangerouslySetInnerHTML={{ __html: summary }} />
@@ -47,6 +49,7 @@ const StudyGuideTemplate = ({ pageContext }) => {
       )}
       </div>
     </main>
+    </Layout>
   );
 };
 

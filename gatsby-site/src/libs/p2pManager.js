@@ -1,50 +1,38 @@
+import Peer from 'peerjs';
+import fetch from 'cross-fetch';
 
-import Peer from 'simple-peer';
-import fetch from 'cross-fetch'; // You might need to install this for server-side fetch support
+export function initializePeerConnection(peerId) {
+  const peer = new Peer(peerId);
 
-export const initializePeerConnection = (username, setPeer) => {
-
-    let peer;
-    if (typeof window !== 'undefined') {
-         peer = new Peer({
-            initiator: window.location.hash === '#init',
-            trickle: false,
-          });
-      }
-      
-  peer.on('signal', data => {
-    // Send signaling data to the server
-    fetch('/.netlify/functions/storeOffer', {
+  peer.on('open', id => {
+    console.log(`My peer ID is: ${id}`);
+    // Now fetch any waiting offers
+    fetch('/.netlify/functions/retrieveOffer', {
       method: 'POST',
-      body: JSON.stringify({ signalData: data, username }),
+      body: JSON.stringify({ peerId: id })
+    })
+    .then(res => res.json())
+    .then(data => {
+      if (data.offer) {
+        // Use this offer to establish connection
+        peer.signal(data.offer);
+      }
     });
   });
 
-  // Function to fetch offers or answers from the server
-  const fetchOffersOrAnswers = async () => {
-    const response = await fetch('/.netlify/functions/retrieveOffers', {
+  peer.on('signal', signalData => {
+    // Send this signal data to storeOffer function
+    fetch('/.netlify/functions/storeOffer', {
       method: 'POST',
-      body: JSON.stringify({ username }),
+      body: JSON.stringify({ peerId: peer.id, offer: signalData })
     });
-    const data = await response.json();
-    if (data.signalData) {
-      peer.signal(data.signalData);
-    }
-  };
+  });
 
-  // Call this function periodically to check for new offers or answers
-  const signalingInterval = setInterval(fetchOffersOrAnswers, 5000);
+  peer.on('connection', conn => {
+    conn.on('data', data => {
+      console.log(data);
+    });
+  });
 
-  // Make sure to clear the interval when peer connection is established or destroyed
-  peer.on('connect', () => clearInterval(signalingInterval));
-  peer.on('close', () => clearInterval(signalingInterval));
-  peer.on('error', () => clearInterval(signalingInterval));
-
-  // Set the peer in the state of your component to use it later
-  setPeer(peer);
-
-  return () => {
-    clearInterval(signalingInterval);
-    peer.destroy();
-  };
-};
+  return peer;
+}

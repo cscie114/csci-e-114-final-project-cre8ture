@@ -1,20 +1,18 @@
-// src/libs/docManager.js
 import * as Automerge from '@automerge/automerge';
 
-// This initializes your Automerge document with an empty array of poems
-export const doc = Automerge.from({ poems: [] });
+let doc = Automerge.from({ poems: [] }); // This initializes your Automerge document with an empty array of poems
 
 export const applyChanges = (changes) => {
-  // Apply changes to the Automerge document
-  return Automerge.applyChanges(doc, changes);
+  doc = Automerge.applyChanges(doc, changes);
+  return doc; // Return updated document to the caller
 };
 
-export const createNewDocWithChanges = (currentDoc, changes) => {
-  // Create a new Automerge document with changes
-  return Automerge.change(currentDoc, changes);
+export const createNewDocWithChanges = (currentDoc, updateFunction) => {
+  const newDoc = Automerge.change(currentDoc, updateFunction);
+  return newDoc;
 };
 
 export const getChangesForNewDoc = (currentDoc, newDoc) => {
-  // Get changes between the current and new Automerge document
-  return Automerge.getChanges(currentDoc, newDoc);
+  const changes = Automerge.getChanges(currentDoc, newDoc);
+  return changes;
 };
