@@ -7,13 +7,6 @@ exports.onCreateWebpackConfig = ({ stage, actions }) => {
       asyncWebAssembly: true,
     },
   });
-  if (stage === "build-html") {
-    actions.setWebpackConfig({
-      node: {
-        process: 'mock'
-      },
-    })
-  }
  
 };
 
