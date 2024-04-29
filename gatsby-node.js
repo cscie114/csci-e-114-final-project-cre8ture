@@ -1,14 +1,40 @@
 const path = require(`path`);
 const fetch = require('node-fetch');
+// const webpack = require('webpack'); // Add this line to import webpack
 
-exports.onCreateWebpackConfig = ({ stage, actions }) => {
+
+// exports.onCreateWebpackConfig = ({ stage, actions }) => {
+//   actions.setWebpackConfig({
+//     experiments: {
+//       asyncWebAssembly: true,
+//     },
+//   });
+ 
+// };
+
+exports.onCreateWebpackConfig = ({ stage, getConfig, actions }) => {
+
   actions.setWebpackConfig({
     experiments: {
       asyncWebAssembly: true,
     },
   });
  
+
+  if (stage === "build-html" || stage === "develop-html") {
+    actions.setWebpackConfig({
+      externals: {
+        peerjs: 'peerjs', // Example: Mock 'peerjs' if it's causing issues
+      },
+  //     plugins: [
+  //       new webpack.DefinePlugin({
+  //         "typeof window": JSON.stringify("object")
+  //       })
+  //     ]
+    });
+  }
 };
+
 
 
 exports.createPages = async ({ actions }) => {
