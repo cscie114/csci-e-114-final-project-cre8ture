@@ -11,29 +11,29 @@ const fetch = import('node-fetch');
 //   });
  
 // };
-
-exports.onCreateWebpackConfig = ({ stage, getConfig, actions }) => {
-
+// In your gatsby-node.js
+exports.onCreateWebpackConfig = ({ actions }) => {
   actions.setWebpackConfig({
     experiments: {
       asyncWebAssembly: true,
+      syncWebAssembly: true
     },
+    module: {
+      rules: [
+        {
+          test: /\.wasm$/,
+          type: "webassembly/async",
+        },
+      ],
+    },
+    performance: {
+      hints: false,
+      maxEntrypointSize: 512000,
+      maxAssetSize: 512000
+    }
   });
- 
-
-  if (stage === "build-html" || stage === "develop-html") {
-    actions.setWebpackConfig({
-      externals: {
-        peerjs: 'peerjs', // Example: Mock 'peerjs' if it's causing issues
-      },
-  //     plugins: [
-  //       new webpack.DefinePlugin({
-  //         "typeof window": JSON.stringify("object")
-  //       })
-  //     ]
-    });
-  }
 };
+
 
 
 

@@ -5,3 +5,10 @@ Your README.md file should have:
 
 - Detailed instructions to run your site.
 - The URL to where you are hosting the site on web.
+
+
+
+## run on server to test locally 
+```bash
+$env:GATSBY_EXPERIMENTAL_DEV_SSR="true"; gatsby develop
+```
