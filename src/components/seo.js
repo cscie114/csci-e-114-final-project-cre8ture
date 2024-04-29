@@ -16,13 +16,14 @@ function Seo({ description, title, children }) {
           siteMetadata {
             title
             description
-            author
+            # author
           }
         }
       }
     `
   )
 
+  console.log("site.siteMetadata", site.siteMetadata)
   const metaDescription = description || site.siteMetadata.description
   const defaultTitle = site.siteMetadata?.title
 
