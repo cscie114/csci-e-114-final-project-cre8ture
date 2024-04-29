@@ -12,10 +12,7 @@ node_modules/
 .env
 
 # Gatsby files
-gatsby-config.js
-gatsby-node.js
-gatsby-browser.js
-gatsby-ssr.js
+
 
 # Logs
 logs
