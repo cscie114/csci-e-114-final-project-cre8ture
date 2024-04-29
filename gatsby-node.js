@@ -1,5 +1,5 @@
 const path = require(`path`);
-const fetch = require('node-fetch');
+const fetch = import('node-fetch');
 // const webpack = require('webpack'); // Add this line to import webpack
 
 
@@ -39,6 +39,8 @@ exports.onCreateWebpackConfig = ({ stage, getConfig, actions }) => {
 
 exports.createPages = async ({ actions }) => {
   const { createPage } = actions;
+
+  const fetch = (await import('node-fetch')).default;
 
   // Define the list of topics you want to fetch from Wikipedia
   const topics = ['Xu_Wei', 'Tosa_Mitsuoki', 'Ike_no_Taiga', 'Yosa_Buson'];
