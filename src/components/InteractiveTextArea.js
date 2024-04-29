@@ -83,46 +83,62 @@
 // };
 
 // export default InteractiveTextAnalysis;
-
-
 import React, { useState, useEffect, useRef } from 'react';
 import nlp from 'compromise';
 import { updateGraph } from '../libs/createGraph';
-import { initializePeerConnection } from '../libs/p2pManager'; // Ensure this imports correctly
+import { initializePeerConnection } from '../libs/p2pManager';
 import { retrieveUsername } from '../libs/store/usernames';
-import { doc, applyChanges, createNewDocWithChanges, getChangesForNewDoc } from '../libs/docManager';
 
 const InteractiveTextAnalysis = () => {
-    const [peer, setPeer] = useState(null); // To manage peer connection state
+    const [peer, setPeer] = useState(null);
     const [inputText, setInputText] = useState("");
+    const [automerge, setAutomerge] = useState(null); // State to hold the Automerge module
+    const [doc, setDoc] = useState(null); // State to hold the Automerge document
     const svgRef = useRef(null);
 
+    // Dynamically import Automerge only on the client-side
     useEffect(() => {
-        const username = retrieveUsername(); // Retrieve stored username
-        const cleanUp = initializePeerConnection(username, setPeer); // Initialize peer connection
-        return cleanUp; // Clean up the peer connection when the component unmounts
+        if (typeof window !== "undefined") {
+            import('@automerge/automerge').then(Automerge => {
+                const initialDoc = Automerge.from({ poems: [] }); // Initialize the Automerge document
+                setAutomerge(Automerge);
+                setDoc(initialDoc);
+            });
+        }
     }, []);
 
+    // Initialize peer connection
     useEffect(() => {
-        if (peer) {
+        const username = retrieveUsername();
+        const cleanUp = initializePeerConnection(username, setPeer);
+        return cleanUp;
+    }, []);
+
+    // Handle data received via peer connection
+    useEffect(() => {
+        if (peer && automerge && doc) {
             peer.on('data', data => {
                 const changes = JSON.parse(data);
-                const updatedDoc = applyChanges(changes); // Apply received changes to the document
-                setInputText(updatedDoc.poems.join('\n')); // Update text area if document changes
+                const updatedDoc = automerge.applyChanges(doc, changes);
+                setDoc(updatedDoc);
+                setInputText(updatedDoc.poems.join('\n'));
             });
         }
-    }, [peer]);
+    }, [peer, automerge, doc]);
 
+    // Watch for changes in input text and send updates
     useEffect(() => {
-        if (inputText && peer) {
-            const newDoc = createNewDocWithChanges(doc, (draftDoc) => {
-                draftDoc.poems = [inputText]; // Update the poem text in the Automerge document
+        if (inputText && peer && automerge && doc) {
+            const newDoc = automerge.change(doc, draftDoc => {
+                draftDoc.poems = [inputText];
             });
-            const changes = getChangesForNewDoc(doc, newDoc);
-            peer.send(JSON.stringify(changes)); // Send changes to the peer
+            const changes = automerge.getChanges(doc, newDoc);
+            peer.send(JSON.stringify(changes));
+            setDoc(newDoc);
         }
-    }, [inputText, peer]);
+    }, [inputText, peer, automerge, doc]);
 
+    // Analyze text using 'compromise' NLP library
     useEffect(() => {
         analyzeText(inputText);
     }, [inputText]);
@@ -147,7 +163,7 @@ const InteractiveTextAnalysis = () => {
     return (
         <div>
             <textarea onChange={handleInputChange} value={inputText}
-            style={{color: "white"}} 
+                style={{ color: "white" }}
                 rows="10" cols="30" placeholder="Write your poem here...">
             </textarea>
             <svg ref={svgRef}></svg>

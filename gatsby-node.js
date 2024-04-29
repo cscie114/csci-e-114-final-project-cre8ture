@@ -1,7 +1,7 @@
 const path = require(`path`);
 const fetch = import('node-fetch');
 // const webpack = require('webpack'); // Add this line to import webpack
-
+// const CopyWebpackPlugin = require('copy-webpack-plugin');
 
 // exports.onCreateWebpackConfig = ({ stage, actions }) => {
 //   actions.setWebpackConfig({
@@ -30,7 +30,14 @@ exports.onCreateWebpackConfig = ({ actions }) => {
       hints: false,
       maxEntrypointSize: 512000,
       maxAssetSize: 512000
-    }
+    },
+    // plugins: [
+    //   new CopyWebpackPlugin({
+    //     patterns: [
+    //       { from: 'path_to_automerge_wasm/automerge_wasm_bg.wasm', to: 'public/' }
+    //     ]
+    //   })
+    // ]
   });
 };
 
