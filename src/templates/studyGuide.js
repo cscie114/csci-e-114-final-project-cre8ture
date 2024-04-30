@@ -1,14 +1,8 @@
-// src/templates/studyGuide.js
 import React, { useEffect, useState } from 'react';
 import nlp from 'compromise';
-import Quiz from '../components/Quiz';
+// import Quiz from '../components/Quiz';
 import InteractiveTextAnalysis from '../components/InteractiveTextArea';
 import Layout from '../components/layout';
-import ManualSignalingComponent from '../components/ManualSignalingComponent';
-import PeerConnectionComponent from '../components/PeerConnectionComponent';
-// import '../styles/magick.css'; // Assuming you have local styles that import magick.css
-import EditorTextAreea from '../components/EditorTextAreea';
-import CollaborativeEditor from '../components/CollaborativeEditor';
 
 const StudyGuideTemplate = ({ pageContext }) => {
   const { title, summary, imageUrl, author } = pageContext;
@@ -32,11 +26,11 @@ const StudyGuideTemplate = ({ pageContext }) => {
     });
   }, [summary]);
 
-  const handleSubmit = (userInput) => {
-    // Compare user input with the actual answer
-    const isCorrect = userInput.trim().toLowerCase() === quiz.answer.toLowerCase();
-    alert(`Your answer is ${isCorrect ? 'correct' : 'incorrect'}. The correct word was: ${quiz.answer}`);
-  };
+  // const handleSubmit = (userInput) => {
+  //   // Compare user input with the actual answer
+  //   const isCorrect = userInput.trim().toLowerCase() === quiz.answer.toLowerCase();
+  //   alert(`Your answer is ${isCorrect ? 'correct' : 'incorrect'}. The correct word was: ${quiz.answer}`);
+  // };
 
   return (
     <Layout>
@@ -45,7 +39,6 @@ const StudyGuideTemplate = ({ pageContext }) => {
       <article dangerouslySetInnerHTML={{ __html: summary }} />
       {imageUrl && <img src={imageUrl} alt={`Image for ${title}`} />}
       <div style={{display: "flex", height: "600px"}}>
-      {/* <textarea style={{color: "white"}} rows="4" cols="50" placeholder="Write a poem" /> */}
       <InteractiveTextAnalysis/>
       </div>
     </main>

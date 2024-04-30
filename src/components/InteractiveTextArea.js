@@ -8,7 +8,7 @@ const InteractiveTextAnalysis = () => {
     const [inputText, setInputText] = useState('');
     const editorRef = useRef(null);
     const svgRef = useRef(null);
-    const ydocRef = useRef(new Y.Doc()); // Use ref to persist Y.Doc instance across re-renders
+    const ydocRef = useRef(new Y.Doc()); // Use ref to persist Y.Doc instance during  re-renders
     const ytextRef = useRef(null);
 
     useEffect(() => {
@@ -16,8 +16,8 @@ const InteractiveTextAnalysis = () => {
             const provider = new WebsocketProvider(
                      'wss://demos.yjs.dev/ws',
                    'kai-demo-doog',
-                // 'ws://localhost:1234', // Adjust as necessary
-                // 'nlp-demo-room', // Room name
+                // 'ws://localhost:1234', // my backend that I have not deployed to cloud
+                // 'nlp-demo-room', // Random Room name
                 ydocRef.current
             );
 
