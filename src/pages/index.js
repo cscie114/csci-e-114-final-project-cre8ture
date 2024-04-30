@@ -163,7 +163,7 @@ Ah, days of endless white clouds, unending!”`
   return (
     <Layout>
       <main>
-        <h1>Welcome to Brushes and Poems</h1>
+        <h1>Welcome to Collaborative Brushes and Poems</h1>
         <img
           src="https://upload.wikimedia.org/wikipedia/commons/f/fd/Korea-Kang_Sehwang-Yeongtong_donggudo.jpg"
           alt="Korea-Kang_Sehwang-Yeongtong_donggudo"
