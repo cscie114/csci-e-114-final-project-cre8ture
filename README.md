@@ -21,7 +21,7 @@ Open your web browser and visit [https://brushandpoem.netlify.app/](https://brus
 
 ## Step 2: Select a Poet
 
-Scroll down to the list menu at the bottom of the page. Here, you will see a list of poets. Click on one of the poets to view their content.
+Scroll down to the list menu at the bottom of the page. Here, you will see a list of artists. Click on one of the artists to view their content.
 
 ## Step 3: Open a New Tab or Device
 
