@@ -12,3 +12,8 @@ Your README.md file should have:
 ```bash
 $env:GATSBY_EXPERIMENTAL_DEV_SSR="true"; gatsby develop
 ```
+
+## test
+```bash
+curl.exe -X POST "http://localhost:8888/.netlify/functions/retrieveOffer" -H "Content-Type: application/json" -d '{\"peerId\": \"your-peer-id\"}'
+```

@@ -16,3 +16,7 @@ a:visited {
   color: #808080; /* Same grey as unvisited links */
 }
 
+
+.layout{
+  min-height: fit-content;
+}
