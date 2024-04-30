@@ -22,6 +22,7 @@
     "gatsby-source-filesystem": "^5.13.1",
     "gatsby-transformer-remark": "^6.13.1",
     "gatsby-transformer-sharp": "^5.13.1",
+    "html2canvas": "^1.4.1",
     "localforage": "^1.10.0",
     "magick.css": "^1.0.6",
     "node-fetch": "^3.3.2",
