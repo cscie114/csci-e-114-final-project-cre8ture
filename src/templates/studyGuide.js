@@ -37,7 +37,17 @@ const StudyGuideTemplate = ({ pageContext }) => {
     <main style={{height: "fit-content"}}>
       <h1 style={{color:"white"}}>{title}</h1>
       <article dangerouslySetInnerHTML={{ __html: summary }} />
+
+
       {imageUrl && <img src={imageUrl} alt={`Image for ${title}`} />}
+      <br/>
+      <h3>How to edit the text editor</h3>
+      <ul>
+  <li><strong>Collaborative Poem</strong> Write into the text area below</li>
+  <li><strong>GraphQL Usage:</strong> Open the editor in another tab or device and your changes will sync</li>
+    </ul>
+    <br/>
+    <h3>Edit your poem in the text editor below</h3>
       <div style={{display: "flex", height: "600px"}}>
       <InteractiveTextAnalysis/>
       </div>

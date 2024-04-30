@@ -8,12 +8,12 @@ const Layout = ({ children }) => {
 <nav style={{padding: '5px', marginLeft: '10px', marginRight: '10px'}}>
   <div style={{display: 'flex', justifyContent: 'space-between'}}>
     <Link to="/" aria-label="Home">
-      <p style={{fontSize: "40px"}}>❀</p>
+      <p style={{fontSize: "40px"}}>❀  <span style={{fontSize: '20px'}}>Home</span></p>
     </Link>
 
     <Link to='https://github.com/cscie114/csci-e-114-final-project-cre8ture'
      aria-label="Github">
-     <p style={{fontSize: "40px"}}>❁</p>
+     <p style={{fontSize: "40px"}}><span style={{fontSize: '20px'}}>Github</span> ❁</p>
    </Link>
   </div>
 </nav>

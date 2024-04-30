@@ -11,6 +11,32 @@ Your README.md file should have:
 
 This project explores the use of Conflict-free Replicated Data Types (CRDTs) and the Yjs library to create a collaborative, real-time application inspired by the great brush/ink artists of Chinese and Japanese traditional brush painting.
 
+# How to Sync Changes Between App Instances
+
+This guide will walk you through the steps to visit [Brush and Poem](https://brushandpoem.netlify.app/) and sync your changes between different app instances. This can be useful if you want to view the same content on multiple devices or browser tabs.
+
+## Step 1: Visit the Website
+
+Open your web browser and visit [https://brushandpoem.netlify.app/](https://brushandpoem.netlify.app/).
+
+## Step 2: Select a Poet
+
+Scroll down to the list menu at the bottom of the page. Here, you will see a list of poets. Click on one of the poets to view their content.
+
+## Step 3: Open a New Tab or Device
+
+Now, open a new tab in your browser or a new browser on a different device. Visit [https://brushandpoem.netlify.app/](https://brushandpoem.netlify.app/) again.
+
+## Step 4: Select the Same Poet
+
+In the new tab or device, scroll down to the list menu at the bottom of the page. Click on the same poet that you selected in the first tab or device.
+
+## Step 5: Sync Changes
+
+Now, any changes you make in one tab or device (like selecting a different poet or viewing different content) will be synced to the other. This allows you to view the same content across multiple devices or browser tabs.
+
+Remember, the syncing feature requires an active internet connection on all devices. If you lose your connection, the changes might not sync until you're online again.
+
 ## CRDTs and Yjs
 
 CRDTs are data structures that allow multiple replicas to be updated independently without coordination. The updates can then be merged deterministically, ensuring strong eventual consistency across all replicas. Yjs is a JavaScript library that implements CRDTs, enabling developers to build collaborative applications where users can work together in real-time.

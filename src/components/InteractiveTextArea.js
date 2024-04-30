@@ -125,6 +125,7 @@ const InteractiveTextAnalysis = () => {
           height: "200px",
           color: "white",
           padding: "10px",
+          backgroundColor: "#212121",
         }}
       />
       <svg ref={svgRef} style={{ width: "100%" }} />
