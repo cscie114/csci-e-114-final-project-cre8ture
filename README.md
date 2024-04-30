@@ -35,41 +35,43 @@ In the new tab or device, scroll down to the list menu at the bottom of the page
 
 Now, any changes you make in one tab or device (like selecting a different poet or viewing different content) will be synced to the other. This allows you to view the same content across multiple devices or browser tabs.
 
-Remember, the syncing feature requires an active internet connection on all devices. If you lose your connection, the changes might not sync until you're online again.
+Remember, you should have a working internet connection. The content, however, should save locally. This is one of the principles of going "Local First".
 
 ## CRDTs and Yjs
 
-CRDTs are data structures that allow multiple replicas to be updated independently without coordination. The updates can then be merged deterministically, ensuring strong eventual consistency across all replicas. Yjs is a JavaScript library that implements CRDTs, enabling developers to build collaborative applications where users can work together in real-time.
+CRDTs are data structures that allow many replicas at the same time to be updated independently, taking care of merging changes (a lot like Github). 
 
-In this project, Yjs is used to allow multiple users to collaboratively create and edit visual representations of poems. Users can work on the same poem simultaneously, with all their changes automatically and deterministically merged.
+In this project, Yjs is used to allow multiple users to collaboratively create and edit visual representations and text of original poems. Users can work on the same poem simultaneously, with all their changes automatically and deterministically merged. D3 actively visualizes the poems and Compromise actively analyzes the text.
 
 ## Inspiration from Traditional Brush Painting
 
-The visual design of the application is inspired by the great brush/ink artists of Chinese and Japanese traditional brush painting. The application provides a canvas where users can create visual representations of poems using brush strokes that mimic the style of traditional brush painting.
+The visual design of the application is inspired by some of the great brush/ink artists of Chinese and Japanese traditional brush painting. The application provides a canvas where users can create visual representations of poems, where poems are turned into graphs.
 
-## Visualizing Poems with D3
-
-D3.js, a JavaScript library for creating data-driven documents, is used to create the visual representations of the poems. D3.js allows for a high level of customization and control over the visual elements, enabling the creation of unique and artistic visualizations.
-
-## Natural Language Processing
-
-Natural Language Processing (NLP) is used to analyze the a user's poems and then graph them using d3s. For example, NLP (using compromise js) can be used to identify adjectives, nouns etc, the main themes, etc.
 
 ## Running the Project
 
 To run the project locally, use the following command:
 
 ```bash
-$env:GATSBY_EXPERIMENTAL_DEV_SSR="true"; gatsby develop
+    git clone https://github.com/cscie114/csci-e-114-final-project-cre8ture
 ```
 
-You can then test the project by sending a POST request to the local server:
+Then go into the main root folder
+```bash
+npm install
+```
 
-## run on server to test locally 
+Then run the app locally
+```bash
+npm start
+```
+
+If you have Netlify Dev CLI installed, you can run the app within a netlify environment (great for testing the edge functions):
 ```bash
 $env:GATSBY_EXPERIMENTAL_DEV_SSR="true"; gatsby develop
 ```
 
+You can then test the project by sending a POST request to the local server:
 ## test
 ```bash
 curl.exe -X POST "http://localhost:8888/.netlify/functions/retrieveOffer" -H "Content-Type: application/json" -d '{\"peerId\": \"your-peer-id\"}'
