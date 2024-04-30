@@ -89,15 +89,14 @@ const InteractiveTextAnalysis = () => {
   }
 
   const captureScreenshot = () => {
-    const svgElement = svgRef.current
-    html2canvas(svgElement).then(canvas => {
-      const imgData = canvas.toDataURL("image/png")
-      let link = document.createElement("a")
-      link.href = imgData
-      link.download = "screenshot.png"
-      link.click()
-    })
-  }
+    html2canvas(document.body).then(canvas => {
+      const imgData = canvas.toDataURL("image/png");
+      let link = document.createElement('a');
+      link.href = imgData;
+      link.download = 'screenshot.png';
+      link.click();
+    });
+  };
 
   const shareText = async () => {
     if (navigator.share) {
