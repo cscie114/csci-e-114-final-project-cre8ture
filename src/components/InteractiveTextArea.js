@@ -12,28 +12,56 @@ const InteractiveTextAnalysis = () => {
   const ydocRef = useRef(new Y.Doc()) // Use ref to persist Y.Doc instance during  re-renders
   const ytextRef = useRef(null)
 
+  // useEffect(() => {
+  //   if (typeof window !== "undefined" && editorRef.current) {
+  //     const provider = new WebsocketProvider(
+  //       "wss://demos.yjs.dev/ws",
+  //       "kai-demo-doog",
+  //       // 'ws://localhost:1234', // my backend that I have not deployed to cloud
+  //       // 'nlp-demo-room', // Random Room name
+  //       ydocRef.current
+  //     )
+
+  //     ytextRef.current = ydocRef.current.getText("text")
+
+  //     // Bind textarea to Yjs
+  //     ytextRef.current.observe(event => {
+  //       setInputText(ytextRef.current.toString())
+  //     })
+
+  //     // Setup initial value if empty
+  //     if (!ytextRef.current.toString()) {
+  //       ytextRef.current.insert(0, "Start writing your poem here...")
+  //     }
+
+  //     // Cleanup
+  //     return () => {
+  //       provider.disconnect()
+  //     }
+  //   }
+  // }, [])
+
   useEffect(() => {
     if (typeof window !== "undefined" && editorRef.current) {
+      const roomName = window.location.pathname;
       const provider = new WebsocketProvider(
         "wss://demos.yjs.dev/ws",
-        "kai-demo-doog",
-        // 'ws://localhost:1234', // my backend that I have not deployed to cloud
-        // 'nlp-demo-room', // Random Room name
+        roomName,
         ydocRef.current
       )
-
+  
       ytextRef.current = ydocRef.current.getText("text")
-
+  
       // Bind textarea to Yjs
       ytextRef.current.observe(event => {
         setInputText(ytextRef.current.toString())
       })
-
+  
       // Setup initial value if empty
       if (!ytextRef.current.toString()) {
         ytextRef.current.insert(0, "Start writing your poem here...")
       }
-
+  
       // Cleanup
       return () => {
         provider.disconnect()
