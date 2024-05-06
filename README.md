@@ -19,6 +19,10 @@ This guide will walk you through the steps to visit [Brush and Poem](https://bru
 
 Open your web browser and visit [https://brushandpoem.netlify.app/](https://brushandpoem.netlify.app/).
 
+## Step 1.5: Enter a unique username (experimental)
+
+In the first input enter a username. This is stored locally and is NOT secure. It just keeps a record of your poems.
+
 ## Step 2: Select a Poet
 
 Scroll down to the list menu at the bottom of the page. Here, you will see a list of artists. Click on one of the artists to view their content.
